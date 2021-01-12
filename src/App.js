@@ -6,6 +6,7 @@ import BurgerBuilder from './containers/BugerBuilder/BurgerBuilder';
 import Checkout from './containers/Checkout/Checkout';
 import Orders from './containers/Orders/Orders';
 
+const num = 1;
 
 class App extends Component {
   render() {
