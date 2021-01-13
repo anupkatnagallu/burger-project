@@ -3,7 +3,8 @@ import * as actionTypes from '../actions/actionTypes';
 const initialState = {
     ingredients: null,
     totalPrice: 4,
-    error: false
+    error: false,
+    building: false
 }
 
 const INGREDIENT_PRICES = {
@@ -25,7 +26,8 @@ const reducer = (state = initialState, action) => {
                     meat: action.ings.meat
                 },
                 totalPrice: 4,
-                error: false
+                error: false,
+                building: false
             }
 
         case actionTypes.FETCH_INGREDIENTS_FAILED:
@@ -50,7 +52,8 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 ingredients: newList,
-                totalPrice: totPrice
+                totalPrice: totPrice,
+                building: true
             }
 
         case actionTypes.REMOVE_INGREDIENT:
@@ -75,7 +78,8 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 ingredients: newListR,
-                totalPrice: totPriceR
+                totalPrice: totPriceR,
+                building: true
             }
         default:
             return state;
