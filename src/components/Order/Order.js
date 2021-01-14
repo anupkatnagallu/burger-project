@@ -1,4 +1,5 @@
 import classes from './Order.module.css';
+import Button from '../UI/Button/Button';
 
 const order = props => {
     let ingredients = [];
@@ -21,12 +22,13 @@ const order = props => {
                 {ig.name} ({ig.value})
             </span>
         )
-    })
+    });
 
     return (
         <div className={classes.Order}>
             <p>Ingredients: {ing}</p>
             <p>Price: <strong>USD {props.price.toFixed(2)}</strong></p>
+            <Button btnType='Danger' clicked={props.clicked}>DELETE</Button>
         </div>
     );
 }

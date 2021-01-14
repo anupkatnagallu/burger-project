@@ -13,11 +13,15 @@ class Orders extends Component {
         this.props.getOrders(this.props.token, this.props.userId);
     }
 
+    deleteOrderHandler = (id) => {
+        this.props.deleteOrder(this.props.token, id);
+    }
+
     render() {
         let display = <Spinner />;
         if(!this.props.loading){
             display = this.props.orders.map(order => {
-                return <Order key={order.id} ingredients={order.ingredients} price={+order.price}/>
+                return <Order key={order.id} ingredients={order.ingredients} price={+order.price} clicked={() => this.deleteOrderHandler(order.id)}/>
             });
         }
         return (
@@ -39,7 +43,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getOrders:(token, userId) => dispatch(actions.getOrders(token, userId))
+        getOrders:(token, userId) => dispatch(actions.getOrders(token, userId)),
+        deleteOrder: (token, id) => dispatch(actions.deleteOrder(token, id))
     }
 }
 

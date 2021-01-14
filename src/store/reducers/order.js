@@ -7,7 +7,7 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case actionTypes.PURCHASE_INIT:
             return {
                 ...state,
@@ -34,7 +34,7 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 loading: false
             }
-        
+
         case actionTypes.FETCH_ORDERS_START:
             return {
                 ...state,
@@ -48,6 +48,37 @@ const reducer = (state = initialState, action) => {
                 loading: false
             }
         case actionTypes.FETCH_ORDERS_FAIL:
+            return {
+                ...state,
+                loading: false
+            }
+        case actionTypes.DELETE_ORDER_START:
+            return {
+                ...state,
+                loading: true
+            }
+        case actionTypes.DELETE_ORDER_SUCCESS:
+            let ordersCopy = [...state.orders];
+            let index = null;
+            if (ordersCopy.length > 1) {
+                ordersCopy.forEach((order, orderIndex) => {
+                    if (order.id === action.id) {
+                        index = orderIndex;
+                    }
+                });
+
+                ordersCopy.splice(index, 1);
+
+            } else {
+                ordersCopy = [];
+            }
+
+            return {
+                ...state,
+                loading: false,
+                orders: ordersCopy
+            }
+        case actionTypes.DELETE_ORDER_FAIL:
             return {
                 ...state,
                 loading: false
