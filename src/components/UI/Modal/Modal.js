@@ -8,10 +8,6 @@ class Modal extends Component{
         return nextProps.purchasing !== this.props.purchasing || nextProps.children !== this.props.children; 
     }
 
-    componentDidUpdate() {
-        console.log('[Modal.js] Updated');
-    }
-
     render() {
         return(
         <Auxiliary>
