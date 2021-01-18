@@ -23,15 +23,10 @@ export const purchaseBurgerStart = () => {
 }
 
 export const purchaseBurger = (orderData, token) => {
-    return dispatch => {
-        dispatch(purchaseBurgerStart());
-        axios.post('/orders.json?auth=' + token, orderData)
-            .then(response => {
-                dispatch(purchaseBurgerSuccess(response.data.name, orderData));
-            })
-            .catch(error => {
-                dispatch(purchaseBurgerFail(error));
-            });
+    return {
+        type: actionTypes.INIT_PURCHASE_BURGER_START,
+        orderData: orderData,
+        token: token
     }
 }
 
@@ -41,44 +36,31 @@ export const purchaseInit = () => {
     };
 }
 
-const fetchOrdersSuccess = (orders) => {
+ export const fetchOrdersSuccess = (orders) => {
     return {
         type: actionTypes.FETCH_ORDERS_SUCCESS,
         orders: orders
     }
 }
 
-const fetchOrdersFail = (error) => {
+export const fetchOrdersFail = (error) => {
     return {
         type: actionTypes.FETCH_ORDERS_FAIL,
         error: error
     }
 }
 
-const fetchOrdersStart = () => {
+export const fetchOrdersStart = () => {
     return {
         type: actionTypes.FETCH_ORDERS_START
     }
 }
 
 export const getOrders = (token, userId) => {
-    return dispatch => {
-        dispatch(fetchOrdersStart());
-        const queryparams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"';
-        axios.get('/orders.json' + queryparams)
-            .then(response => {
-                let fetchedOrders = [];
-                for (let key in response.data) {
-                    fetchedOrders.push({
-                        ...response.data[key],
-                        id: key
-                    });
-                }
-                dispatch(fetchOrdersSuccess(fetchedOrders));
-            })
-            .catch(error => {
-                dispatch(fetchOrdersFail(error));
-            })
+    return {
+        type: actionTypes.FETCH_ORDERS_INIT,
+        token: token,
+        userId: userId
     }
 }
 
@@ -102,14 +84,9 @@ export const deleteFail = () => {
 }
 
 export const deleteOrder = (token, id) => {
-    return dispatch => {
-        dispatch(deleteStart());
-        axios.delete('/orders/'+ id + '.json?auth=' + token)
-            .then(response => {
-                dispatch(deleteSuccess(id));
-            })
-            .catch(error => {
-                dispatch(deleteFail());
-            });
+    return {
+        type: actionTypes.DELETE_ORDER_INIT,
+        token: token,
+        id: id
     }
 }

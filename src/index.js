@@ -10,6 +10,8 @@ import reportWebVitals from './reportWebVitals';
 import burgerBuilderReducer from './store/reducers/burgerBuilder';
 import orderReducer from './store/reducers/order';
 import authReducer from './store/reducers/auth';
+import createSagaMiddleware from 'redux-saga';
+import { watchAuth, watchBurgerBuilder, watchOrder } from './store/sagas/index';
 
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null|| compose;
 
@@ -19,9 +21,15 @@ const allReducers = combineReducers({
   ar: authReducer
 });
 
+const sagas = createSagaMiddleware();
+
 const store = createStore(allReducers, composeEnhancers(
-  applyMiddleware(thunk)
+  applyMiddleware(thunk, sagas)
 ));
+
+sagas.run(watchAuth);
+sagas.run(watchBurgerBuilder);
+sagas.run(watchOrder);
 
 ReactDOM.render(
   <React.StrictMode>
