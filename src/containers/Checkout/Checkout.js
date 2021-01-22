@@ -1,40 +1,38 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ContactData from './ContactData/ContactData';
 
-class Checkout extends Component {
+const Checkout = props => {
 
-    checkoutCancelHandler = () => {
-        this.props.history.goBack();
+    const checkoutCancelHandler = () => {
+        props.history.goBack();
     }
 
-    checkoutContinueHandler = () => {
-        this.props.history.replace('/checkout/contact-data');
+    const checkoutContinueHandler = () => {
+        props.history.replace('/checkout/contact-data');
     }
 
 
-    render() {
 
-        let summary = <Redirect to='/' />;
+    let summary = <Redirect to='/' />;
 
-        if (this.props.ingredients) {
-            const redirectAfterPurchase = this.props.purchased ? <Redirect to='/' /> : null;
-            summary = (
-                <div>
-                    {redirectAfterPurchase}
-                    <CheckoutSummary ingredients={this.props.ingredients}
-                        checkoutCancel={this.checkoutCancelHandler}
-                        checkoutContinue={this.checkoutContinueHandler} />
+    if (props.ingredients) {
+        const redirectAfterPurchase = props.purchased ? <Redirect to='/' /> : null;
+        summary = (
+            <div>
+                {redirectAfterPurchase}
+                <CheckoutSummary ingredients={props.ingredients}
+                    checkoutCancel={checkoutCancelHandler}
+                    checkoutContinue={checkoutContinueHandler} />
 
-                    <Route path={this.props.match.url + '/contact-data'} component={ContactData} />
-                </div>
-            );
-        }
-        return summary;
+                <Route path={props.match.url + '/contact-data'} component={ContactData} />
+            </div>
+        );
     }
+    return summary;
 }
 
 const mapStateToProps = state => {

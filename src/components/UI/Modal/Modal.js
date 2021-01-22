@@ -1,26 +1,23 @@
-import React, { Component } from 'react';
+import React from 'react';
 import classes from './Modal.module.css';
 import Auxiliary from '../../../hoc/Auxiliary/Auxiliary';
 import Backdrop from '../Backdrop/Backdrop';
 
-class Modal extends Component{
-    shouldComponentUpdate(nextProps, nextState) {
-        return nextProps.purchasing !== this.props.purchasing || nextProps.children !== this.props.children; 
-    }
+const Modal = props => {
 
-    render() {
-        return(
+    return (
         <Auxiliary>
-            <Backdrop purchasing={this.props.purchasing} clicked={this.props.modalClosed}/>
+            <Backdrop purchasing={props.purchasing} clicked={props.modalClosed} />
             <div className={classes.Modal} style={{
-                transform: this.props.purchasing ? 'translateY(0)' : 'translateY(-100vh)',
-                opacity: this.props.purchasing ? '1' : '0'
+                transform: props.purchasing ? 'translateY(0)' : 'translateY(-100vh)',
+                opacity: props.purchasing ? '1' : '0'
             }}>
-                {this.props.children}
+                {props.children}
             </div>
         </Auxiliary>
-        );
-    }
+    );
 }
 
-export default Modal;
+export default React.memo(Modal, (prevProps, nextProps) => {
+    return nextProps.purchasing === prevProps.purchasing && nextProps.children === prevProps.children;
+});
